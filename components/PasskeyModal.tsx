@@ -28,13 +28,13 @@ export const PasskeyModal = () => {
     const [error, setError] = useState("");
 
   
-
-    useEffect(() => {
-    const  getAdmin=async()=>{  
-      const encryptedKey =
+const encryptedKey =
          window !== undefined
             ?await window.localStorage.getItem("accessKey")
             : null;
+    useEffect(() => {
+    const  getAdmin=async()=>{  
+      
         const accessKey = encryptedKey && decryptKey(encryptedKey);
 
         if (path)
