@@ -30,10 +30,10 @@ export const PasskeyModal = () => {
   
 const encryptedKey =
          window !== undefined
-            ?await window.localStorage.getItem("accessKey")
+            ? window.localStorage.getItem("accessKey")
             : null;
     useEffect(() => {
-    const  getAdmin=async()=>{  
+    const  getAdmin=()=>{  
       
         const accessKey = encryptedKey && decryptKey(encryptedKey);
 
