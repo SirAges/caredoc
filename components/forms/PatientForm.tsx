@@ -15,83 +15,78 @@ import CustomFormField, { FormFieldType } from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 
 export const PatientForm = () => {
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-    const form = useForm<z.infer<typeof UserFormValidation>>({
-        resolver: zodResolver(UserFormValidation),
-        defaultValues: {
-            name: "",
-            email: "",
-            phone: ""
-        }
-    });
+  const form = useForm<z.infer<typeof UserFormValidation>>({
+    resolver: zodResolver(UserFormValidation),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+    },
+  });
 
-    const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
-        setIsLoading(true);
-        console.log("values", values);
-        try {
-            const user = {
-                name: values.name,
-                email: values.email,
-                phone: values.phone
-            };
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
+    setIsLoading(true);
 
-            const newUser = await createUser(user);
+    try {
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      };
 
-            if (newUser) {
-                router.push(`/patients/${newUser.$id}/register`);
-            }
-        } catch (error) {
-            console.log(error);
-        }
+      const newUser = await createUser(user);
 
-        setIsLoading(false);
-    };
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
-    return (
-        <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex-1 space-y-6"
-            >
-                <section className="mb-12 space-y-4">
-                    <h1 className="header">Hi there 👋</h1>
-                    <p className="text-dark-700">
-                        Get started with appointments.
-                    </p>
-                </section>
+    setIsLoading(false);
+  };
 
-                <CustomFormField
-                    fieldType={FormFieldType.INPUT}
-                    control={form.control}
-                    name="name"
-                    label="Full name"
-                    placeholder="John Doe"
-                    iconSrc="/assets/icons/user.svg"
-                    iconAlt="user"
-                />
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
+        <section className="mb-12 space-y-4">
+          <h1 className="header">Hi there 👋</h1>
+          <p className="text-dark-700">Get started with appointments.</p>
+        </section>
 
-                <CustomFormField
-                    fieldType={FormFieldType.INPUT}
-                    control={form.control}
-                    name="email"
-                    label="Email"
-                    placeholder="johndoe@gmail.com"
-                    iconSrc="/assets/icons/email.svg"
-                    iconAlt="email"
-                />
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="name"
+          label="Full name"
+          placeholder="John Doe"
+          iconSrc="/assets/icons/user.svg"
+          iconAlt="user"
+        />
 
-                <CustomFormField
-                    fieldType={FormFieldType.PHONE_INPUT}
-                    control={form.control}
-                    name="phone"
-                    label="Phone number"
-                    placeholder="(555) 123-4567"
-                />
+        <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="email"
+          label="Email"
+          placeholder="johndoe@gmail.com"
+          iconSrc="/assets/icons/email.svg"
+          iconAlt="email"
+        />
 
-                <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
-            </form>
-        </Form>
-    );
+        <CustomFormField
+          fieldType={FormFieldType.PHONE_INPUT}
+          control={form.control}
+          name="phone"
+          label="Phone number"
+          placeholder="(555) 123-4567"
+        />
+
+        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+      </form>
+    </Form>
+  );
 };
